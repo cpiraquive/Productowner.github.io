@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Scrum Product Owner Professional Certificate (SPOPC)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .progress-container {
+            margin-bottom: 30px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            padding: 5px;
+        }
+
+        .progress-bar {
+            height: 25px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 12px;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+            width: 0%;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .question-text {
+            flex: 1;
+            font-size: 1.1em;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .options {
+            margin-bottom: 20px;
+        }
+
+        .option {
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .option label {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+            padding: 15px 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            border: 2px solid transparent;
+            min-height: 60px;
+        }
+
+        .option label:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .option input[type="radio"] {
+            margin-right: 15px;
+            margin-top: 3px;
+            transform: scale(1.3);
+        }
+
+        .option-text {
+            flex: 1;
+            line-height: 1.4;
+            font-size: 1em;
+        }
+
+        .selected-option {
+            background: #e3f2fd !important;
+            border-color: #2196f3 !important;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e9ecef;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            min-width: 120px;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .btn-success:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
+        }
+
+        .result-container {
+            text-align: center;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-approved {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .result-failed {
+            background: linear-gradient(135deg, #dc3545, #fd7e14);
+            color: white;
+        }
+
+        .result-container h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .result-container .score {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .result-container .message {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .passing-score-info {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .passing-score-info strong {
+            color: #1976d2;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .question-header {
+                flex-direction: column;
+            }
+
+            .question-number {
+                align-self: flex-start;
+                margin-bottom: 15px;
+                margin-right: 0;
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SCRUM Product Owner Professional Certificate</h1>
+            <p>Examen de Preparación - 40 Preguntas</p>
+        </div>
+
+        <div class="passing-score-info">
+            <strong>📋 Puntuación mínima para aprobar: 32/40 (80%)</strong>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar">1/40</div>
+        </div>
+
+        <!-- Vista de Pregunta -->
+        <div id="questionView" class="question-card fade-in">
+            <div>
+                <div class="question-header">
+                    <div class="question-number" id="questionNumber">1/40</div>
+                    <div class="question-text" id="questionText"></div>
+                </div>
+                <div class="options" id="optionsContainer"></div>
+            </div>
+            <div class="controls">
+                <button type="button" id="prevBtn" class="btn btn-secondary" disabled>← Anterior</button>
+                <button type="button" id="nextBtn" class="btn btn-primary" disabled>Siguiente →</button>
+                <button type="button" id="finishBtn" class="btn btn-success hidden">Finalizar Examen</button>
+            </div>
+        </div>
+
+        <!-- Vista de Resultados -->
+        <div id="resultView" class="result-container hidden">
+            <h2 id="resultTitle"></h2>
+            <div class="score" id="resultScore"></div>
+            <div class="message" id="resultMessage"></div>
+            <button type="button" id="restartBtn" class="btn btn-primary">Reiniciar Examen</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                text: "Un Development Team ha estado trabajando en varios Sprint, el Product Owner comparte su plan para las próximas interacciones, este plan es de alto nivel que describe cómo es probable que crezca el producto. ¿Cuál es el artefacto al que el Product Owner se refiere?",
+                options: [
+                    "Sprint Backlog.",
+                    "Product Backlog.",
+                    "Roadmap del producto.",
+                    "Project Charter."
+                ],
+                correct: 1
+            },
+            {
+                id: 2,
+                text: "¿Qué es importante en todos los proyectos de Scrum?\n1. La Auto-organización.\n2. Jerarquías claras de la empresa.\n3. Comunicación.\n4. Mejora continua.",
+                options: [
+                    "1, 2, 3 y 4.",
+                    "1, 3 y 4.",
+                    "1, 4.",
+                    "1, 2 y 3."
+                ],
+                correct: 1
+            },
+            {
+                id: 3,
+                text: "¿Cuál de las siguientes no es una responsabilidad del Product Owner?",
+                options: [
+                    "Garantizar el ROI.",
+                    "Ejecución de la Daily Scrum.",
+                    "Reunir los PBI del Product Backlog.",
+                    "La inspección del trabajo en el Sprint Review Meeting."
+                ],
+                correct: 1
+            },
+            {
+                id: 4,
+                text: "¿Las siguientes son responsabilidades o actividades del Product Owner?\n1. Expresar claramente los elementos del Product Backlog.\n2. Ordenar los elementos en el Product Backlog.\n3. Entender y practicar la agilidad.",
+                options: [
+                    "Solo 1 y 2.",
+                    "Solo 2 y 3.",
+                    "Solo 1 y 3.",
+                    "Todas."
+                ],
+                correct: 3
+            },
+            {
+                id: 5,
+                text: "¿Cuál de los siguientes enunciados es CIERTO con respecto a los Project Charter en Scrum?",
+                options: [
+                    "Es contractual fijando la triple restricción (tiempo-costo-alcance).",
+                    "Establece una línea base de entendimientos y conexión entre el equipo y los interesados.",
+                    "En la guía de Scrum no se encuentra la definición de Project Charter.",
+                    "El Project Charter da al Project Manager la autoridad necesaria."
+                ],
+                correct: 2
+            },
+            {
+                id: 6,
+                text: "La liberación (release) de un producto terminado (DoD) es responsabilidad del:",
+                options: [
+                    "Scrum Master, quien decide liberarlo o no.",
+                    "Product Owner, quien decide liberarlo o no.",
+                    "Scrum Team.",
+                    "Development Team."
+                ],
+                correct: 1
+            },
+            {
+                id: 7,
+                text: "¿En equipos pequeños, el Scrum Master puede asumir también el rol del Product Owner?",
+                options: [
+                    "Verdadero.",
+                    "Falso."
+                ],
+                correct: 1
+            },
+            {
+                id: 8,
+                text: "¿Quiénes son los involucrados en la definición del Sprint Goal?",
+                options: [
+                    "Development Team y Scrum Master.",
+                    "Scrum Team.",
+                    "Scrum Master y el Product Owner.",
+                    "El Product Owner y el Development Team."
+                ],
+                correct: 3
+            },
+            {
+                id: 9,
+                text: "¿Cómo deben ordenarse los elementos (PBI) en un Product Backlog?",
+                options: [
+                    "Alfabéticamente es el orden del Product Backlog.",
+                    "Primero por la necesidad del negocio y luego cronológicamente por fecha de solicitud original del negocio.",
+                    "Por prioridad e importancia para el negocio en primer lugar. Los elementos que se traducen en mayor retorno de la inversión y que cuentan con una mayor claridad, deben ser priorizados en primer lugar.",
+                    "Cronológicamente por fecha de solicitud del negocio."
+                ],
+                correct: 2
+            },
+            {
+                id: 10,
+                text: "La definición de terminado (\"DoD\" Definition of Done), y los criterios de aceptación, son:",
+                options: [
+                    "Definidos por el Development Team.",
+                    "Deben ser lo mismo.",
+                    "Los define el Scrum Master y el Development Team.",
+                    "Son conceptos diferentes."
+                ],
+                correct: 3
+            },
+            {
+                id: 11,
+                text: "El Product Owner debe participar en el Daily Meeting:",
+                options: [
+                    "Verdadero.",
+                    "Falso."
+                ],
+                correct: 1
+            },
+            {
+                id: 12,
+                text: "¿Quién es responsable de mantener a los stakeholders informados sobre el progreso del desarrollo del producto o servicio en Scrum?",
+                options: [
+                    "El líder del Development Team.",
+                    "Project Manager.",
+                    "Product Owner.",
+                    "Scrum Master."
+                ],
+                correct: 2
+            },
+            {
+                id: 13,
+                text: "En un Sprint de un mes, el Daily Standup Meeting tiene una duración máxima de:",
+                options: [
+                    "10 minutos.",
+                    "20 minutos.",
+                    "Lo que decida el Scrum Master.",
+                    "Ninguna."
+                ],
+                correct: 3
+            },
+            {
+                id: 14,
+                text: "En un Sprint corto tiene más riesgo que un Sprint largo.",
+                options: [
+                    "Verdadero.",
+                    "Falso."
+                ],
+                correct: 1
+            },
+            {
+                id: 15,
+                text: "El Sprint Planning tiene algunas características, define cuál es la CORRECTA:",
+                options: [
+                    "Siempre su duración máxima es de 8 horas.",
+                    "El Sprint Planning tiene un máximo de duración de ocho horas para un Sprint de un mes. Para Sprints más cortos, el evento es usualmente más corto.",
+                    "La lidera el Product Owner.",
+                    "Participa el cliente."
+                ],
+                correct: 1
+            },
+            {
+                id: 16,
+                text: "¿Cuál es la secuencia más común en un ciclo de vida de Scrum?",
+                options: [
+                    "Daily Scrum, Sprint Planning, Sprint Retrospective, Sprint Review.",
+                    "Sprint Planning, Daily Scrum, Sprint Retrospective, Sprint Review.",
+                    "Sprint Planning, Daily Scrum, Sprint Review, Sprint Retrospective.",
+                    "Ninguna."
+                ],
+                correct: 3
+            },
+            {
+                id: 17,
+                text: "El Product Owner...",
+                options: [
+                    "Participa en la Daily Scrum o reunión diaria.",
+                    "Participa en la reunión de cierre del Sprint.",
+                    "Preside el Sprint Planning Meeting.",
+                    "Ninguna de las anteriores."
+                ],
+                correct: 2
+            },
+            {
+                id: 18,
+                text: "¿Scrum recomienda la creación de sub-equipos en el Development Team como pruebas o análisis de negocio (BA), esto quién debe hacerlo?",
+                options: [
+                    "El Product Owner.",
+                    "El Scrum Master.",
+                    "El área de Recurso Humano.",
+                    "Scrum no reconoce sub-equipos en el Development Team."
+                ],
+                correct: 3
+            },
+            {
+                id: 19,
+                text: "El Backlog Refinement Meeting o reunión de refinamiento en Sprints de un mes, tiene una duración de:",
+                options: [
+                    "4 horas máximo.",
+                    "La suma de las reuniones deben durar entre un 5 % y 10 %, de la duración total del proyecto.",
+                    "La suma de las reuniones deben durar entre un 8 % y 10 %, de la duración total del Sprint.",
+                    "Ninguna."
+                ],
+                correct: 2
+            },
+            {
+                id: 20,
+                text: "Actualmente está trabajando para una empresa que está creando una aplicación para responder a las solicitudes de los usuarios. Dada la importancia de este proyecto, se debería asignar:",
+                options: [
+                    "Dos Product Owners.",
+                    "Sólo se recomienda un Product Owner.",
+                    "Un Product Owner y dos Scrum Masters.",
+                    "Se recomienda que el Scrum Master haga el trabajo del Product Owner."
+                ],
+                correct: 1
+            },
+            {
+                id: 21,
+                text: "¿Qué técnica se utiliza para estimar en Scrum?",
+                options: [
+                    "Estimaciones asignadas por el Scrum Master.",
+                    "Estimaciones grupales.",
+                    "Todas.",
+                    "Ninguna."
+                ],
+                correct: 3
+            },
+            {
+                id: 22,
+                text: "Si dos Development Teams, trabajan en el mismo producto, ¿tienen diferentes Product Backlogs?",
+                options: [
+                    "Si.",
+                    "No."
+                ],
+                correct: 1
+            },
+            {
+                id: 23,
+                text: "La suma de todos los Sprints Backlogs es el Product Backlog:",
+                options: [
+                    "Si.",
+                    "No."
+                ],
+                correct: 0
+            },
+            {
+                id: 24,
+                text: "El Development Team:",
+                options: [
+                    "Participa en la Daily Scrum.",
+                    "Participa en la reunión de levantamiento de requerimientos.",
+                    "Participa en el Kick-Off del proyecto.",
+                    "Ninguna de las anteriores."
+                ],
+                correct: 0
+            },
+            {
+                id: 25,
+                text: "En Scrum el Product Increment, se debe entregar siempre al cliente.",
+                options: [
+                    "Verdadero.",
+                    "Falso."
+                ],
+                correct: 1
+            },
+            {
+                id: 26,
+                text: "Una User Story tiene las siguientes características:",
+                options: [
+                    "Las ayuda a definir el Product Owner.",
+                    "Siempre se descompone en tareas.",
+                    "Tiene criterios de aceptación.",
+                    "Todas las anteriores."
+                ],
+                correct: 2
+            },
+            {
+                id: 27,
+                text: "El Product Owner, estima las User Stories.",
+                options: [
+                    "Verdadero.",
+                    "Falso."
+                ],
+                correct: 1
+            },
+            {
+                id: 28,
+                text: "¿Es verdad que solo el Product Owner tiene la autoridad para cancelar el Sprint si y solo si con la influencia de los interesados?",
+                options: [
+                    "Si.",
+                    "No."
+                ],
+                correct: 1
+            },
+            {
+                id: 29,
+                text: "El Product Backlog, se suele dividir en:",
+                options: [
+                    "El Product Backlog nunca está completo.",
+                    "Cambia constantemente para identificar lo que el producto necesita.",
+                    "Evoluciona a medida que el producto se va completando.",
+                    "Todas."
+                ],
+                correct: 3
+            },
+            {
+                id: 30,
+                text: "Un _____________________ se crea durante la primera mitad de la reunión de la Sprint Planning y un _________________ se crea durante la segunda mitad de la reunión de Sprint Planning.",
+                options: [
+                    "Product Backlog, Sprint Backlog.",
+                    "La cartera de productos, colección de tareas.",
+                    "Sprint Goal, Sprint Backlog.",
+                    "Burndown chart, Pila del Sprint."
+                ],
+                correct: 2
+            },
+            {
+                id: 31,
+                text: "¿Cuál es la principal diferencia entre el Product Backlog y el Sprint Backlog?",
+                options: [
+                    "El Product Backlog es igual a Sprint Backlog.",
+                    "El Product Backlog es un subconjunto del Sprint Backlog.",
+                    "El Sprint Backlog es un subconjunto del Product Backlog.",
+                    "El Sprint Backlog es la responsabilidad del Product Owner."
+                ],
+                correct: 2
+            },
+            {
+                id: 32,
+                text: "¿Qué ocurre cuando el Sprint se cancela?",
+                options: [
+                    "El Scrum Team se disuelve inmediatamente.",
+                    "El Sprint Backlog completo se vuelve a poner en el Product Backlog.",
+                    "Los elementos completados en el Sprint Backlog se evalúan para una liberación y elementos incompletos se descartan.",
+                    "Los elementos completados en el Sprint Backlog se evalúan para una liberación y los elementos incompletos se ponen de nuevo en el Product Backlog."
+                ],
+                correct: 3
+            },
+            {
+                id: 33,
+                text: "¿Quién determina cuándo es apropiado actualizar el Sprint Backlog durante un Sprint?",
+                options: [
+                    "El Project Manager.",
+                    "El Scrum Team.",
+                    "El Development Team.",
+                    "El Product Owner."
+                ],
+                correct: 1
+            },
+            {
+                id: 34,
+                text: "El Sprint Goal se selecciona antes de crear el Sprint Backlog.",
+                options: [
+                    "Verdadero.",
+                    "Falso."
+                ],
+                correct: 0
+            },
+            {
+                id: 35,
+                text: "¿En cuál de los siguientes casos se podría cancelar un Sprint?\n1. Si el Development no lograra cumplir con los objetivos que se planteó para el Sprint.\n2. Si cambian las condiciones del mercado o de la tecnología, haciendo que el objetivo del Sprint se vuelva obsoleto.\n3. Nunca debe ser cancelado, su corta duración permite la definición de objetivos alcanzables y hace que la cancelación no tenga sentido.\n4. Si cambia el rumbo de la compañía, haciendo que el Sprint Goal quede obsoleto.",
+                options: [
+                    "Solo la 1.",
+                    "Solo la 3.",
+                    "2 y 4.",
+                    "1 y 2."
+                ],
+                correct: 2
+            },
+            {
+                id: 36,
+                text: "¿Cuáles son los eventos en Scrum?",
+                options: [
+                    "Daily Meeting.",
+                    "Sprint Retrospective.",
+                    "Sprint Review y Sprint Planning.",
+                    "Todas las anteriores."
+                ],
+                correct: 3
+            },
+            {
+                id: 37,
+                text: "¿El Product Owner es la única persona responsable de gestionar el Product Backlog?",
+                options: [
+                    "Verdadero.",
+                    "Falso."
+                ],
+                correct: 0
+            },
+            {
+                id: 38,
+                text: "El propósito de cada Sprint es entregar Incrementos de funcionalidad que potencialmente se puedan poner en producción, y que se ajustan a la Definición de «Done».",
+                options: [
+                    "Verdadero.",
+                    "Falso."
+                ],
+                correct: 0
+            },
+            {
+                id: 39,
+                text: "El refinamiento es el acto de añadir detalle, estimaciones y orden a los elementos del Product Backlog, este:",
+                options: [
+                    "Usualmente consume no más del 10 % de la capacidad del Development Team.",
+                    "Usualmente consume no más del 20 % de la capacidad del Development Team.",
+                    "Usualmente consume no más del 30 % de la capacidad del Development Team.",
+                    "Usualmente consume no más del 40 % de la capacidad del Development Team."
+                ],
+                correct: 0
+            },
+            {
+                id: 40,
+                text: "¿Cuáles son los artefactos en Scrum?",
+                options: [
+                    "Product Backlog, Sprint Backlog y Product Increment.",
+                    "Sprint Backlog, Product Increment y Sprint.",
+                    "Product Increment, Product Backlog y User Story."
+                ],
+                correct: 0
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let answers = {};
+        const PASSING_SCORE = 32;
+
+        function renderQuestion() {
+            const question = questions[currentQuestionIndex];
+            
+            document.getElementById('questionNumber').textContent = `${currentQuestionIndex + 1}/40`;
+            document.getElementById('questionText').innerHTML = question.text.replace(/\n/g, '<br>');
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                
+                const isSelected = answers[question.id] === index;
+                
+                optionDiv.innerHTML = `
+                    <label ${isSelected ? 'class="selected-option"' : ''}>
+                        <input type="radio" name="currentQuestion" value="${index}" ${isSelected ? 'checked' : ''} 
+                               onchange="selectOption(${index})">
+                        <span class="option-text">${String.fromCharCode(97 + index)}) ${option}</span>
+                    </label>
+                `;
+                
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            updateButtons();
+            updateProgress();
+            
+            // Añadir animación
+            document.getElementById('questionView').classList.add('slide-in');
+        }
+
+        function selectOption(optionIndex) {
+            const question = questions[currentQuestionIndex];
+            answers[question.id] = optionIndex;
+            
+            // Actualizar estilos visuales
+            document.querySelectorAll('.option label').forEach(label => {
+                label.classList.remove('selected-option');
+            });
+            
+            const selectedLabel = document.querySelector(`input[value="${optionIndex}"]`).closest('label');
+            selectedLabel.classList.add('selected-option');
+            
+            updateButtons();
+        }
+
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+            
+            prevBtn.disabled = currentQuestionIndex === 0;
+            
+            const hasAnswer = answers[questions[currentQuestionIndex].id] !== undefined;
+            
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.classList.add('hidden');
+                finishBtn.classList.remove('hidden');
+                finishBtn.disabled = !hasAnswer;
+            } else {
+                nextBtn.classList.remove('hidden');
+                finishBtn.classList.add('hidden');
+                nextBtn.disabled = !hasAnswer;
+            }
+        }
+
+        function updateProgress() {
+            const answered = Object.keys(answers).length;
+            const percentage = Math.round((answered / questions.length) * 100);
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = `${currentQuestionIndex + 1}/40`;
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        }
+
+        function finishExam() {
+            if (Object.keys(answers).length < questions.length) {
+                alert('Por favor, responde todas las preguntas antes de finalizar el examen.');
+                return;
+            }
+            
+            let correctCount = 0;
+            
+            questions.forEach(question => {
+                if (answers[question.id] === question.correct) {
+                    correctCount++;
+                }
+            });
+            
+            showResults(correctCount);
+        }
+
+        function showResults(correctCount) {
+            const isApproved = correctCount >= PASSING_SCORE;
+            const percentage = Math.round((correctCount / questions.length) * 100);
+            
+            // Ocultar vista de pregunta
+            document.getElementById('questionView').classList.add('hidden');
+            
+            // Mostrar vista de resultados
+            const resultView = document.getElementById('resultView');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultScore = document.getElementById('resultScore');
+            const resultMessage = document.getElementById('resultMessage');
+            
+            if (isApproved) {
+                resultView.classList.add('result-approved');
+                resultView.classList.remove('result-failed');
+                resultTitle.textContent = '🎉 ¡APROBADO!';
+                resultMessage.innerHTML = `
+                    <div style="margin-bottom: 15px;">
+                        <strong>¡Felicitaciones!</strong> Has superado el examen exitosamente.
+                    </div>
+                    <div>
+                        Puntuación mínima requerida: <strong>32/40 (80%)</strong><br>
+                        Tu puntuación: <strong>${correctCount}/40 (${percentage}%)</strong>
+                    </div>
+                `;
+            } else {
+                resultView.classList.add('result-failed');
+                resultView.classList.remove('result-approved');
+                resultTitle.textContent = '❌ NO APROBADO';
+                resultMessage.innerHTML = `
+                    <div style="margin-bottom: 15px;">
+                        <strong>No alcanzaste la puntuación mínima.</strong> ¡No te desanimes!
+                    </div>
+                    <div>
+                        Puntuación mínima requerida: <strong>32/40 (80%)</strong><br>
+                        Tu puntuación: <strong>${correctCount}/40 (${percentage}%)</strong><br>
+                        Te faltan <strong>${PASSING_SCORE - correctCount}</strong> respuestas correctas más.
+                    </div>
+                `;
+            }
+            
+            resultScore.textContent = `${correctCount}/40 respuestas correctas`;
+            resultView.classList.remove('hidden');
+            resultView.classList.add('fade-in');
+            
+            // Scroll al resultado
+            resultView.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function restartExam() {
+            // Reiniciar variables
+            currentQuestionIndex = 0;
+            answers = {};
+            
+            // Ocultar vista de resultados
+            document.getElementById('resultView').classList.add('hidden');
+            document.getElementById('resultView').classList.remove('result-approved', 'result-failed');
+            
+            // Mostrar vista de pregunta
+            document.getElementById('questionView').classList.remove('hidden');
+            
+            // Reiniciar primera pregunta
+            renderQuestion();
+            
+            // Scroll al inicio
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Event Listeners
+        document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+        document.getElementById('prevBtn').addEventListener('click', prevQuestion);
+        document.getElementById('finishBtn').addEventListener('click', finishExam);
+        document.getElementById('restartBtn').addEventListener('click', restartExam);
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            renderQuestion();
+        });
+
+        // Atajos de teclado opcionales
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('questionView').classList.contains('hidden')) return;
+            
+            if (e.key === 'ArrowRight' && !document.getElementById('nextBtn').disabled) {
+                nextQuestion();
+            } else if (e.key === 'ArrowLeft' && !document.getElementById('prevBtn').disabled) {
+                prevQuestion();
+            } else if (e.key >= '1' && e.key <= '4') {
+                const optionIndex = parseInt(e.key) - 1;
+                const question = questions[currentQuestionIndex];
+                if (optionIndex < question.options.length) {
+                    selectOption(optionIndex);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
