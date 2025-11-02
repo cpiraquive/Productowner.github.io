@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Examen Scrum Product Owner Professional Certificate (SPOPC)</title>
+    <title>Examen SCRUM Product Owner Professional Certificate (SPOPC)</title>
     <style>
         * {
             margin: 0;
@@ -150,6 +150,32 @@
             border-color: #2196f3 !important;
         }
 
+        .correct-answer {
+            background: #d4edda !important;
+            border-color: #28a745 !important;
+            border-width: 3px !important;
+        }
+
+        .incorrect-answer {
+            background: #f8d7da !important;
+            border-color: #dc3545 !important;
+            border-width: 3px !important;
+        }
+
+        .answer-indicator {
+            margin-left: 10px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .correct-icon {
+            color: #28a745;
+        }
+
+        .incorrect-icon {
+            color: #dc3545;
+        }
+
         .controls {
             display: flex;
             justify-content: space-between;
@@ -207,37 +233,98 @@
             box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
         }
 
-        .result-container {
+        .result-summary {
             text-align: center;
-            background: white;
+            padding: 30px;
             border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            color: white;
         }
 
         .result-approved {
             background: linear-gradient(135deg, #28a745, #20c997);
-            color: white;
         }
 
         .result-failed {
             background: linear-gradient(135deg, #dc3545, #fd7e14);
-            color: white;
         }
 
-        .result-container h2 {
+        .result-summary h2 {
             font-size: 2.5em;
-            margin-bottom: 20px;
-        }
-
-        .result-container .score {
-            font-size: 1.5em;
             margin-bottom: 15px;
         }
 
-        .result-container .message {
-            font-size: 1.2em;
-            margin-bottom: 30px;
+        .result-summary .score {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .result-summary .message {
+            font-size: 1.1em;
+            margin-top: 15px;
+        }
+
+        .review-section {
+            margin-top: 30px;
+        }
+
+        .review-section h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .review-question {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-question.correct {
+            border-left: 5px solid #28a745;
+        }
+
+        .review-question.incorrect {
+            border-left: 5px solid #dc3545;
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .review-number {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+            margin-right: 10px;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .review-status {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .passing-score-info {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .passing-score-info strong {
+            color: #1976d2;
+            font-size: 1.1em;
         }
 
         .hidden {
@@ -260,20 +347,6 @@
         @keyframes slideIn {
             from { opacity: 0; transform: translateX(30px); }
             to { opacity: 1; transform: translateX(0); }
-        }
-
-        .passing-score-info {
-            background: #e3f2fd;
-            border: 2px solid #2196f3;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .passing-score-info strong {
-            color: #1976d2;
-            font-size: 1.1em;
         }
 
         @media (max-width: 768px) {
@@ -315,7 +388,7 @@
         </div>
 
         <div class="passing-score-info">
-            <strong>📋 Puntuación mínima para aprobar: 32/40 (80%)</strong>
+            <strong>📋 Puntuación mínima para aprobar: 32/40 respuestas correctas (80%)</strong>
         </div>
 
         <div class="progress-container">
@@ -339,11 +412,21 @@
         </div>
 
         <!-- Vista de Resultados -->
-        <div id="resultView" class="result-container hidden">
-            <h2 id="resultTitle"></h2>
-            <div class="score" id="resultScore"></div>
-            <div class="message" id="resultMessage"></div>
-            <button type="button" id="restartBtn" class="btn btn-primary">Reiniciar Examen</button>
+        <div id="resultView" class="hidden">
+            <div id="resultSummary" class="result-summary">
+                <h2 id="resultTitle"></h2>
+                <div class="score" id="resultScore"></div>
+                <div class="message" id="resultMessage"></div>
+            </div>
+
+            <div class="review-section">
+                <h3>📝 Revisión de Respuestas</h3>
+                <div id="reviewContainer"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button type="button" id="restartBtn" class="btn btn-primary">Reiniciar Examen</button>
+            </div>
         </div>
     </div>
 
@@ -801,7 +884,6 @@
             updateButtons();
             updateProgress();
             
-            // Añadir animación
             document.getElementById('questionView').classList.add('slide-in');
         }
 
@@ -809,7 +891,6 @@
             const question = questions[currentQuestionIndex];
             answers[question.id] = optionIndex;
             
-            // Actualizar estilos visuales
             document.querySelectorAll('.option label').forEach(label => {
                 label.classList.remove('selected-option');
             });
@@ -886,15 +967,15 @@
             // Ocultar vista de pregunta
             document.getElementById('questionView').classList.add('hidden');
             
-            // Mostrar vista de resultados
-            const resultView = document.getElementById('resultView');
+            // Configurar resumen de resultados
+            const resultSummary = document.getElementById('resultSummary');
             const resultTitle = document.getElementById('resultTitle');
             const resultScore = document.getElementById('resultScore');
             const resultMessage = document.getElementById('resultMessage');
             
             if (isApproved) {
-                resultView.classList.add('result-approved');
-                resultView.classList.remove('result-failed');
+                resultSummary.classList.add('result-approved');
+                resultSummary.classList.remove('result-failed');
                 resultTitle.textContent = '🎉 ¡APROBADO!';
                 resultMessage.innerHTML = `
                     <div style="margin-bottom: 15px;">
@@ -906,8 +987,8 @@
                     </div>
                 `;
             } else {
-                resultView.classList.add('result-failed');
-                resultView.classList.remove('result-approved');
+                resultSummary.classList.add('result-failed');
+                resultSummary.classList.remove('result-approved');
                 resultTitle.textContent = '❌ NO APROBADO';
                 resultMessage.innerHTML = `
                     <div style="margin-bottom: 15px;">
@@ -922,11 +1003,74 @@
             }
             
             resultScore.textContent = `${correctCount}/40 respuestas correctas`;
-            resultView.classList.remove('hidden');
-            resultView.classList.add('fade-in');
+            
+            // Generar revisión de respuestas
+            generateReview();
+            
+            // Mostrar vista de resultados
+            document.getElementById('resultView').classList.remove('hidden');
+            document.getElementById('resultView').classList.add('fade-in');
             
             // Scroll al resultado
-            resultView.scrollIntoView({ behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function generateReview() {
+            const reviewContainer = document.getElementById('reviewContainer');
+            reviewContainer.innerHTML = '';
+            
+            questions.forEach((question, index) => {
+                const userAnswer = answers[question.id];
+                const isCorrect = userAnswer === question.correct;
+                
+                const reviewCard = document.createElement('div');
+                reviewCard.className = `review-question ${isCorrect ? 'correct' : 'incorrect'}`;
+                
+                let optionsHTML = '';
+                question.options.forEach((option, optIndex) => {
+                    let optionClass = '';
+                    let indicator = '';
+                    
+                    // Si es la respuesta correcta
+                    if (optIndex === question.correct) {
+                        optionClass = 'correct-answer';
+                        indicator = '<span class="answer-indicator correct-icon">✓ Correcta</span>';
+                    }
+                    
+                    // Si el usuario seleccionó esta opción y es incorrecta
+                    if (optIndex === userAnswer && optIndex !== question.correct) {
+                        optionClass = 'incorrect-answer';
+                        indicator = '<span class="answer-indicator incorrect-icon">✗ Tu respuesta</span>';
+                    }
+                    
+                    optionsHTML += `
+                        <div class="option">
+                            <label class="${optionClass}">
+                                <input type="radio" disabled ${optIndex === userAnswer ? 'checked' : ''}>
+                                <span class="option-text">${String.fromCharCode(97 + optIndex)}) ${option}</span>
+                                ${indicator}
+                            </label>
+                        </div>
+                    `;
+                });
+                
+                reviewCard.innerHTML = `
+                    <div class="review-header">
+                        <div class="review-number">${index + 1}</div>
+                        <div class="review-status ${isCorrect ? 'correct-icon' : 'incorrect-icon'}">
+                            ${isCorrect ? '✓ Correcta' : '✗ Incorrecta'}
+                        </div>
+                    </div>
+                    <div class="question-text" style="margin-bottom: 15px;">
+                        ${question.text.replace(/\n/g, '<br>')}
+                    </div>
+                    <div class="options">
+                        ${optionsHTML}
+                    </div>
+                `;
+                
+                reviewContainer.appendChild(reviewCard);
+            });
         }
 
         function restartExam() {
@@ -936,7 +1080,7 @@
             
             // Ocultar vista de resultados
             document.getElementById('resultView').classList.add('hidden');
-            document.getElementById('resultView').classList.remove('result-approved', 'result-failed');
+            document.getElementById('resultSummary').classList.remove('result-approved', 'result-failed');
             
             // Mostrar vista de pregunta
             document.getElementById('questionView').classList.remove('hidden');
@@ -959,7 +1103,7 @@
             renderQuestion();
         });
 
-        // Atajos de teclado opcionales
+        // Atajos de teclado
         document.addEventListener('keydown', function(e) {
             if (document.getElementById('questionView').classList.contains('hidden')) return;
             
